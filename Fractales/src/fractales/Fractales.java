@@ -7,6 +7,7 @@ package fractales;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.FileNotFoundException;
 import javax.swing.JFrame;
 
 /**
@@ -37,8 +38,17 @@ public class Fractales extends JFrame {
         drawTree(g, 400, 500, -90, 9);
     }
  
-    public static void main(String[] args) {
-        new Fractales().setVisible(true);
+    public static void main(String[] args) throws FileNotFoundException {
+        //new Fractales().setVisible(true);
+        CargarImagen c = new CargarImagen();
+        int [][] m = c.GenerarMatriz("arbol1.png");
+        
+        for (int i=0; i<m.length; i++){
+            
+            for (int j=0; j<m[0].length; j++){
+                System.out.print(m[i][j]+"    ");
+            }
+            System.out.println();
+        }
     }
-
 }
