@@ -22,7 +22,7 @@ import javax.imageio.stream.ImageInputStream;
 public class CargarImagen {
     
     
-    //   https://www.youtube.com/watch?v=ih_4qGlh0-Y
+    //https://www.youtube.com/watch?v=ih_4qGlh0-Y
     public CargarImagen(){       
     }
     
@@ -35,7 +35,7 @@ public class CargarImagen {
         
         
         try {
-            InputStream entrada =  new FileInputStream("imagenes\\arbol6.png");
+            InputStream entrada =  new FileInputStream("imagenes\\arbol5.png");
             
             ImageInputStream imagenEntrada =  ImageIO.createImageInputStream(entrada);
             BufferedImage imagen = ImageIO.read(imagenEntrada);
@@ -46,12 +46,19 @@ public class CargarImagen {
             
             int [][] tmp = new int [filas][columnas];
             
+            int gg;
             for(int i=0; i<filas; i++){
                 
                 for(int j=0; j<columnas; j++){
                     
-                    tmp[i][j] = imagen.getRGB(j, i);
+                    gg=imagen.getRGB(j, i);
                     
+                    if(gg != 0){
+                        tmp[i][j] = 1;
+                    }
+                    if (gg == 0 || gg == -1){
+                        tmp[i][j] = 0;
+                    } 
                 }
                 
             }
@@ -59,8 +66,6 @@ public class CargarImagen {
         } catch (IOException ex) {
             Logger.getLogger(CargarImagen.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
         return matriz;
     }
     
