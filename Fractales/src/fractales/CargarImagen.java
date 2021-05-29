@@ -35,7 +35,7 @@ public class CargarImagen {
         
         
         try {
-            InputStream entrada =  new FileInputStream("imagenes\\arbol5.png");
+            InputStream entrada =  new FileInputStream("imagenes\\"+nombre);
             
             ImageInputStream imagenEntrada =  ImageIO.createImageInputStream(entrada);
             BufferedImage imagen = ImageIO.read(imagenEntrada);
