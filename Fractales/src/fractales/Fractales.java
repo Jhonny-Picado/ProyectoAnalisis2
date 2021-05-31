@@ -11,8 +11,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,6 +20,17 @@ import javax.swing.JOptionPane;
  */
 public class Fractales extends JFrame {
  
+    //Funcion(g2D, x1, x2, anguloInicial, anguloRamas, profundidad, ramas, longitud, modLongitud, diametro, modDiametro)
+    private static double ang = 30;
+    private static int prof = 5;
+    private static int ramas =4;
+    private static double longitud = 18;
+    private static double decLong = 0.3;
+    private static double diametro=15;
+    private static double decDiam = .6;
+    
+    
+    
     public Fractales() {
         super("Fractal Tree");
         setBounds(100, 100, 1366, 720);
@@ -48,7 +59,7 @@ public class Fractales extends JFrame {
         
         //Configura la longitud y el diametro para la siguiente llamada recursiva
         longitud -= longitud * decLong;
-        diametro-= diametro * decDiam;
+        diametro -= diametro * decDiam;
         
         //Obtiene la mitad de las ramas y lo multiplica por -1, para obtener el modificador del angulo, al poner las ramas
         int mod = (ramas/2)*-1;
@@ -79,20 +90,46 @@ public class Fractales extends JFrame {
         
         
         //Funcion(g2D, x1, x2, anguloInicial, anguloRamas, profundidad, ramas, longitud, modLongitud, diametro, modDiametro)
-        drawTree(g2D, 683, 715, -90, 40, 7, 3, 18, 0.3, 15, 0.6);
+        drawTree(g2D, 683, 715, -90, ang, prof, ramas, longitud, decLong, diametro, decDiam);
+        
+    }
+    
+    
+    public static void fun(String nom) throws IOException{
+
+        
+        
+        GuardarImagen imagen = new GuardarImagen();
+        imagen.saveImagen(nom);
+        
+        
     }
     
     
  
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws FileNotFoundException, IOException {
         
-        JFrame f = new Fractales();
-        f.setVisible(true);
+        
+        for(int i=0; i<2; i++){
+            
+            fun(Integer.toString(i));
+            
+            ang = 15;
+            prof = 6;
+            ramas = 3;
+            longitud = 22;
+            decLong = .4;
+            diametro = 30;
+            decDiam = .6;
 
-
+        }
+        
+        
+        
+        
         /*
         CargarImagen c = new CargarImagen();
-        int [][] m = c.GenerarMatriz("arbol2.png");
+        int [][] m = c.GenerarMatriz("salida.jpg");
         
         for (int i=0; i<m.length; i++){
             
@@ -101,20 +138,5 @@ public class Fractales extends JFrame {
             }
             System.out.println();
         }*/
-    }
-    
-    
-    //codigo para hacer una pausa (Después se borra)
-    public static void pausa(JFrame f){
-        
-        
-        String name="1";
-        
-        while(!"".equals(name)){
-            name = JOptionPane.showInputDialog("pausa");
-           
-        }
-        f.setVisible(false);
-
     }
 }

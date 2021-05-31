@@ -53,12 +53,14 @@ public class CargarImagen {
                     
                     gg=imagen.getRGB(j, i);
                     
-                    if(gg != 0){
+                    /*if(gg != -16777216){
                         tmp[i][j] = 1;
-                    }
-                    if (gg == 0 || gg == -1){
+                    }*/
+                    if (gg == -16777216){
                         tmp[i][j] = 0;
                     } 
+                    else
+                        tmp[i][j]=gg;
                 }
                 
             }
