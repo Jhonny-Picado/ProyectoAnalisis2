@@ -21,27 +21,35 @@ import javax.swing.JFrame;
 public class Fractales extends JFrame {
  
     //Funcion(g2D, x1, x2, anguloInicial, anguloRamas, profundidad, ramas, longitud, modLongitud, diametro, modDiametro)
-    private static double ang = 30;
-    private static int prof = 5;
-    private static int ramas =4;
-    private static double longitud = 18;
-    private static double decLong = 0.3;
-    private static double diametro=15;
-    private static double decDiam = .6;
+    private double [] angulo = new double [2];
+    private int profundidad; 
+    private int [] ramas = new int [2]; 
+    private double longitudInicial; 
+    private double [] decLongitud = new double[2]; 
+    private double diametroInicial; 
+    private double [] decDiametro = new double [2]; 
     
     
-    
-    public Fractales() {
+    //Constructor de la clase, recibe todos los parametros necesarios para crear el arbol
+    public Fractales(int prof, double diaI, double longI, double [] decL, double[] decD, int [] ram, double [] ang) {
+        
         super("Fractal Tree");
         setBounds(100, 100, 1366, 720);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+        
+        this.profundidad = prof;
+        this.diametroInicial = diaI;
+        this.longitudInicial = longI;
+        this.decLongitud = decL;
+        this.decDiametro = decD;
+        this.ramas = ram;
+        this.angulo = ang;
     }
     
     
     //Función que dibuja el árbol
-    private void drawTree(Graphics2D g, int x1, int y1, double angulo, double anguloRam, int profundidad, int ramas, double longitud, 
-                          double decLong, double diametro, double decDiam) {
+    private void drawTree(Graphics2D g, int x1, int y1, double angulo, double [] anguloRam, int profundidad, int[] ramas, double longitud, 
+                          double [] decLong, double diametro, double [] decDiam) {
         
         //Si se acaban los niveles del arbol, entonces se detiene
         if (profundidad == 0) 
@@ -57,25 +65,38 @@ public class Fractales extends JFrame {
         g.setStroke(new BasicStroke((float) (diametro)));
         g.drawLine(x1, y1, x2, y2);
         
+        
+        //Saca los randoms de los modificadores de longitud y diametro
+        double modLong = RandomDouble(decLong[1], decLong[0]) / 100;
+        double modDiam = RandomDouble(decDiam[1], decDiam[0]) / 100;
+        
+        
         //Configura la longitud y el diametro para la siguiente llamada recursiva
-        longitud -= longitud * decLong;
-        diametro -= diametro * decDiam;
+        longitud -= longitud * modLong;
+        diametro -= diametro * modDiam;
+        
+        
+        //Saca el random para el angulo de las ramas
+        double anguloTmp = RandomDouble(anguloRam[1], anguloRam[0]);
+        
+        //Saca el random de cuantas ramas tiene cada nivel
+        int ramasTmp = RandomInt(ramas[1], ramas[0]);
         
         //Obtiene la mitad de las ramas y lo multiplica por -1, para obtener el modificador del angulo, al poner las ramas
-        int mod = (ramas/2)*-1;
+        int mod = (ramasTmp/2)*-1;
             
         
         //Itera sobre la cantidad de ramas dadas, para formar las mismas
-        for(int i=1; i < ramas+1; i++){
+        for(int i=1; i < ramasTmp+1; i++){
             
             //Llamado recursivo
-            drawTree(g, x2, y2, (angulo + anguloRam * mod), anguloRam, profundidad - 1, ramas, longitud, decLong, diametro, decDiam);
+            drawTree(g, x2, y2, (angulo + anguloTmp * mod), anguloRam, profundidad - 1, ramas, longitud, decLong, diametro, decDiam);
             
             //Aumenta el modificador
             mod++;
             
             //Si las ramas son pares y se encuentra en la rama media, entonces aumenta el modificador para acomodar las ramas bien
-            if(ramas%2==0 && i == ramas/2)
+            if(ramasTmp%2==0 && i == ramasTmp/2)
                 mod++;
             
         }
@@ -90,46 +111,97 @@ public class Fractales extends JFrame {
         
         
         //Funcion(g2D, x1, x2, anguloInicial, anguloRamas, profundidad, ramas, longitud, modLongitud, diametro, modDiametro)
-        drawTree(g2D, 683, 715, -90, ang, prof, ramas, longitud, decLong, diametro, decDiam);
+        drawTree(g2D, 683, 715, -90, this.angulo, this.profundidad, this.ramas, this.longitudInicial, this.decLongitud, this.diametroInicial, this.decDiametro);
         
     }
     
     
-    public static void fun(String nom) throws IOException{
+    public static void fun() throws IOException{
 
         
+        double [] longitud = new double [2];
+        longitud [0] = 13;
+        longitud [1] = 25;
         
-        GuardarImagen imagen = new GuardarImagen();
-        imagen.saveImagen(nom);
+        
+        double [] diametro = new double [2];
+        diametro [0] = 12;
+        diametro [1] = 23;
+        
+        int [] profundidad = new int [2];
+        profundidad [0] = 5;
+        profundidad [1] = 10;
         
         
+        double []decDiametro = new double [2];
+        decDiametro[0] = 30;
+        decDiametro[1] = 65;
+        
+        double []decLongitud = new double [2];
+        decLongitud[0] = 25;
+        decLongitud[1] = 70;
+        
+        int [] ramas = new int[2];
+        ramas[0] = 2;
+        ramas[1] = 5;
+        
+        
+        double [] angulo = new double [2];
+        angulo[0] = 33;
+        angulo[1] = 40;
+                
+        
+        
+        //Crea una generación de 10 individuos
+        for (int i=0; i<10; i++){
+           
+            
+            //Genera random de long
+            double lon = RandomDouble(longitud[1], longitud[0]);
+                    
+            
+            //Genera random de diametro
+            double dia = RandomDouble(diametro[1], diametro[0]);
+
+             
+            //Genera random de profundidad
+            int prof = RandomInt(profundidad[1], profundidad[0]);
+            
+            //Crea un frame de fractales
+            JFrame f = new Fractales(prof, dia, lon, decLongitud, decDiametro, ramas, angulo);
+            
+            GuardarImagen imagen = new GuardarImagen();
+            imagen.saveImagen(Integer.toString(i),f);
+
+        }        
     }
     
     
  
     public static void main(String[] args) throws FileNotFoundException, IOException {
-        
-       
-        
-        for(int i=0; i<2; i++){
-            
-            fun(Integer.toString(i));
-            
-            ang = 15;
-            prof = 6;
-            ramas = 3;
-            longitud = 21;
-            decLong = .3;
-            diametro = 30;
-            decDiam = .6;
 
-        }
-        
-        
-        
+        fun();
+
         Fitness fit = new Fitness();
-        
-        System.out.println(fit.Algoritmo("0.jpg", "1.jpg"));
 
+        for (int i =0; i<10; i++){
+           System.out.println(Integer.toString(i)+": "+fit.Algoritmo(Integer.toString(i)+".jpg", "prueba2.jpg"));
+        }
+
+    }
+    
+    //Función encargada de sacar randoms en tipo de datos double
+    public static double RandomDouble(double mayor, double menor){
+        
+        return Math.random()*( mayor - menor) + menor;
+        
+    }
+    
+    
+    //Función encargada de sacar randoms en tipo de datos int
+    public static int RandomInt(int mayor, int menor){
+        
+        return (int) Math.floor(Math.random()*(mayor - menor +1) + menor);
+        
     }
 }

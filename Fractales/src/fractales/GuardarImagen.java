@@ -27,11 +27,8 @@ public class GuardarImagen {
     
     
     //Funcion que guarda una imagen, recibe el nombre de la misma
-    public void saveImagen(String nombre) throws IOException {
-        
-        //Crea un frame de fractales
-        JFrame f = new Fractales();
-        
+    public void saveImagen(String nombre, JFrame f) throws IOException {
+                
         //Hace un nuevo archivo
         File fichero = new File("imagenes//"+nombre+".jpg");
         String formato = "jpg";
