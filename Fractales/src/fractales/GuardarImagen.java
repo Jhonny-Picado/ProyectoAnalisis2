@@ -19,14 +19,21 @@ import javax.swing.JFrame;
  */
 public class GuardarImagen {
 
+    
+    //Constructor de la clase
     public GuardarImagen(){
         
     }
     
+    
+    //Funcion que guarda una imagen, recibe el nombre de la misma
     public void saveImagen(String nombre) throws IOException {
+        
+        //Crea un frame de fractales
         JFrame f = new Fractales();
-
-        File fichero = new File(nombre+".jpg");
+        
+        //Hace un nuevo archivo
+        File fichero = new File("imagenes//"+nombre+".jpg");
         String formato = "jpg";
 
         // Creamos la imagen para dibujar en ella.
@@ -38,7 +45,9 @@ public class GuardarImagen {
 
         // Escribimos la imagen en el archivo.
         try {
-
+            
+            
+            //La binariza para dejarla a blanco y negro
             ImageIO.write(imagen, formato, fichero);
             
             Imagen obj = new Imagen(nombre+".jpg");

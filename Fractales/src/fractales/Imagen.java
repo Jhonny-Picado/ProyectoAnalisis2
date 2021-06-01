@@ -15,11 +15,11 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 /**
  *
- * @author Geek
+ * 
  */
 public class Imagen {
-    public static final int anchoPermitido=1382;
-    public static final int altoPermitido=744;
+    public static final int anchoPermitido=1366;
+    public static final int altoPermitido=720;
     private Color arreglo[][];
     private int ancho;
     private int alto;
@@ -30,7 +30,7 @@ public class Imagen {
     public void cargarImagen(String archivo){
         BufferedImage bf=null;
         try {
-            bf = ImageIO.read(new File(archivo));
+            bf = ImageIO.read(new File("imagenes//"+archivo));
         } catch (IOException ex) {
             Logger.getLogger(Imagen.class.getName()).log(Level.SEVERE, null, ex);
         }

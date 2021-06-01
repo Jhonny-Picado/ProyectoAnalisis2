@@ -109,6 +109,7 @@ public class Fractales extends JFrame {
  
     public static void main(String[] args) throws FileNotFoundException, IOException {
         
+       
         
         for(int i=0; i<2; i++){
             
@@ -117,8 +118,8 @@ public class Fractales extends JFrame {
             ang = 15;
             prof = 6;
             ramas = 3;
-            longitud = 22;
-            decLong = .4;
+            longitud = 21;
+            decLong = .3;
             diametro = 30;
             decDiam = .6;
 
@@ -126,17 +127,9 @@ public class Fractales extends JFrame {
         
         
         
+        Fitness fit = new Fitness();
         
-        /*
-        CargarImagen c = new CargarImagen();
-        int [][] m = c.GenerarMatriz("salida.jpg");
-        
-        for (int i=0; i<m.length; i++){
-            
-            for (int j=0; j<m[0].length; j++){
-                System.out.print(m[i][j]);
-            }
-            System.out.println();
-        }*/
+        System.out.println(fit.Algoritmo("0.jpg", "1.jpg"));
+
     }
 }
