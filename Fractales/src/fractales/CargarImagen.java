@@ -51,16 +51,11 @@ public class CargarImagen {
                 
                 for(int j=0; j<columnas; j++){
                     
-                    gg=imagen.getRGB(j, i);
-                    
-                    /*if(gg != -16777216){
-                        tmp[i][j] = 1;
-                    }*/
-                    if (gg == -16777216){
-                        tmp[i][j] = 0;
-                    } 
+                    if ( imagen.getRGB(j, i)== -16777216)
+                        tmp[i][j]=0;
                     else
-                        tmp[i][j]=gg;
+                    tmp[i][j]=1;//imagen.getRGB(j, i);
+                    
                 }
                 
             }
