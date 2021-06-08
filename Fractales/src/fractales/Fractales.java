@@ -46,7 +46,7 @@ public class Fractales extends JFrame {
         this.angulo = ang;
     }
     
-    
+      
     //Función que dibuja el árbol
     private void drawTree(Graphics2D g, int x1, int y1, double angulo, double [] anguloRam, int profundidad, int[] ramas, double longitud, 
                           double [] decLong, double diametro, double [] decDiam) {
@@ -115,80 +115,6 @@ public class Fractales extends JFrame {
         
     }
     
-    
-    public static void fun() throws IOException{
-
-        
-        double [] longitud = new double [2];
-        longitud [0] = 13;
-        longitud [1] = 25;
-        
-        
-        double [] diametro = new double [2];
-        diametro [0] = 12;
-        diametro [1] = 23;
-        
-        int [] profundidad = new int [2];
-        profundidad [0] = 5;
-        profundidad [1] = 10;
-        
-        
-        double []decDiametro = new double [2];
-        decDiametro[0] = 30;
-        decDiametro[1] = 65;
-        
-        double []decLongitud = new double [2];
-        decLongitud[0] = 25;
-        decLongitud[1] = 70;
-        
-        int [] ramas = new int[2];
-        ramas[0] = 2;
-        ramas[1] = 5;
-        
-        
-        double [] angulo = new double [2];
-        angulo[0] = 33;
-        angulo[1] = 40;
-                
-        
-        
-        //Crea una generación de 10 individuos
-        for (int i=0; i<10; i++){
-           
-            
-            //Genera random de long
-            double lon = RandomDouble(longitud[1], longitud[0]);
-                    
-            
-            //Genera random de diametro
-            double dia = RandomDouble(diametro[1], diametro[0]);
-
-             
-            //Genera random de profundidad
-            int prof = RandomInt(profundidad[1], profundidad[0]);
-            
-            //Crea un frame de fractales
-            JFrame f = new Fractales(prof, dia, lon, decLongitud, decDiametro, ramas, angulo);
-            
-            GuardarImagen imagen = new GuardarImagen();
-            imagen.saveImagen(Integer.toString(i),f);
-
-        }        
-    }
-    
-    
- 
-    public static void main(String[] args) throws FileNotFoundException, IOException {
-
-        fun();
-
-        Fitness fit = new Fitness();
-
-        for (int i =0; i<10; i++){
-           System.out.println(Integer.toString(i)+": "+fit.Algoritmo(Integer.toString(i)+".jpg", "prueba2.jpg"));
-        }
-
-    }
     
     //Función encargada de sacar randoms en tipo de datos double
     public static double RandomDouble(double mayor, double menor){

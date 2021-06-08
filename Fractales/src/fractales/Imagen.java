@@ -30,7 +30,7 @@ public class Imagen {
     public void cargarImagen(String archivo){
         BufferedImage bf=null;
         try {
-            bf = ImageIO.read(new File("imagenes//"+archivo));
+            bf = ImageIO.read(new File(archivo));
         } catch (IOException ex) {
             Logger.getLogger(Imagen.class.getName()).log(Level.SEVERE, null, ex);
         }

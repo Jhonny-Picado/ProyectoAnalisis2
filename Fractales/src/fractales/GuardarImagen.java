@@ -27,10 +27,10 @@ public class GuardarImagen {
     
     
     //Funcion que guarda una imagen, recibe el nombre de la misma
-    public void saveImagen(String nombre, JFrame f) throws IOException {
+    public void saveImagen(String ruta,String nombre, JFrame f) throws IOException {
                 
         //Hace un nuevo archivo
-        File fichero = new File("imagenes//"+nombre+".jpg");
+        File fichero = new File(ruta+nombre+".jpg");
         String formato = "jpg";
 
         // Creamos la imagen para dibujar en ella.
@@ -47,7 +47,7 @@ public class GuardarImagen {
             //La binariza para dejarla a blanco y negro
             ImageIO.write(imagen, formato, fichero);
             
-            Imagen obj = new Imagen(nombre+".jpg");
+            Imagen obj = new Imagen(ruta+nombre+".jpg");
             obj.binarizarImagen(50);
             BufferedImage img = obj.imprimirImagen();
             

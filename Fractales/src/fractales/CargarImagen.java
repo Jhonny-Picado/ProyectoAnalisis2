@@ -27,7 +27,7 @@ public class CargarImagen {
     }
     
     
-    public int[][] GenerarMatriz(String nombre) throws FileNotFoundException{
+    public int[][] GenerarMatriz(String ruta,String nombre) throws FileNotFoundException{
         
         
         
@@ -35,7 +35,7 @@ public class CargarImagen {
         
         
         try {
-            InputStream entrada =  new FileInputStream("imagenes\\"+nombre);
+            InputStream entrada =  new FileInputStream(ruta+nombre);
             
             ImageInputStream imagenEntrada =  ImageIO.createImageInputStream(entrada);
             BufferedImage imagen = ImageIO.read(imagenEntrada);
