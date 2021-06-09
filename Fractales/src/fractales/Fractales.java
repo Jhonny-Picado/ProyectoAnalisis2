@@ -104,7 +104,7 @@ public class Fractales extends JFrame {
  
     @Override
     public void paint(Graphics g) {
-        g.setColor(Color.GREEN);
+        g.setColor(Color.WHITE);
         
         //Hay que convertir el g a un grafico 2D, para aplicar el diametro
         Graphics2D g2D = (Graphics2D) g;

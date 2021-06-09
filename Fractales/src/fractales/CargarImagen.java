@@ -29,10 +29,7 @@ public class CargarImagen {
     
     public int[][] GenerarMatriz(String ruta,String nombre) throws FileNotFoundException{
         
-        
-        
         int [][] matriz=null;
-        
         
         try {
             InputStream entrada =  new FileInputStream(ruta+nombre);
@@ -51,11 +48,10 @@ public class CargarImagen {
                 
                 for(int j=0; j<columnas; j++){
                     
-                    if ( imagen.getRGB(j, i)== -16777216)
-                        tmp[i][j]=0;
-                    else
-                    tmp[i][j]=1;//imagen.getRGB(j, i);
-                    
+                    //if ( imagen.getRGB(j, i)== -16777216)
+                      //  tmp[i][j]=0;
+                    //else
+                    tmp[i][j]=imagen.getRGB(j, i);  
                 }
                 
             }

@@ -43,15 +43,14 @@ public class GuardarImagen {
         // Escribimos la imagen en el archivo.
         try {
             
-            
             //La binariza para dejarla a blanco y negro
             ImageIO.write(imagen, formato, fichero);
             
             Imagen obj = new Imagen(ruta+nombre+".jpg");
-            obj.binarizarImagen(50);
-            BufferedImage img = obj.imprimirImagen();
+            //obj.binarizarImagen(50);
+            //BufferedImage img = obj.imprimirImagen();
             
-            ImageIO.write(img, formato, fichero);
+            ImageIO.write(imagen, formato, fichero);
         } catch (IOException e) {
             System.out.println("Error de escritura");
         }

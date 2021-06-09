@@ -25,9 +25,10 @@ public class Nodo {
     public JFrame imagen;
     public int sililitud;
     public int contador;
+    public boolean mutado;
 
     //Constructor del nodo
-    public Nodo(int prof, double diaI, double longI, double [] decL, double[] decD, int [] ram, double [] ang, JFrame f, int con) {
+    public Nodo(int prof, double diaI, double longI, double [] decL, double[] decD, int [] ram, double [] ang, JFrame f, int con, boolean Mutado) {
         this.profundidad = prof;
         this.diametroInicial = diaI;
         this.longitudInicial = longI;
@@ -38,5 +39,6 @@ public class Nodo {
         this.siguiente = null;
         this.imagen=f;
         this.contador=con;
+        this.mutado = Mutado;
     }
 }
