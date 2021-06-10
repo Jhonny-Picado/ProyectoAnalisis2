@@ -7,9 +7,11 @@ package fractales;
 
 import static fractales.Fractales.RandomDouble;
 import static fractales.Fractales.RandomInt;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import javax.swing.JFrame;
 
 /**
@@ -34,87 +36,162 @@ public class Genetico {
    
     }
     
+    
+    /* --------------------------------------- Flujo del Programa -------------------------------------  */
+    
+    //Flujo del algoritmo genético
+    public void Algoritmo() throws IOException{
+        
+        //Crea la primer carpeta y hace la población inicial
+        CrearCarpeta(0);
+        poblacionInicial();
+        
+        System.out.println("MAX Gen0: "+ Collections.max(similitudes));
+        
+        //Inicia un contador en 1, para el nombre de cada generación
+        int i=1;
+
+        //Itera mientras no se cumpla la condicion de parada
+        while(Collections.max(similitudes)<85){
+            
+            //Primero crea la carpeta donde guardar las imagenes, realiza el cruce y hace la selección
+            CrearCarpeta(i);
+            cruce();
+            seleccion();
+            
+            System.out.println("MAX Gen"+Integer.toString(i)+": "+ Collections.max(similitudes));
+            
+            i++;
+        }
+    }
+    
+    
+    //Método que crea una carpeta por cada generación
+    public void CrearCarpeta(int i) {
+        
+        //Crea un nuevo directorio
+        File directorio = new File(ruta + Integer.toString(i));
+        
+        //Valida si existe, sino, lo crea
+        if (!directorio.exists()) {
+            directorio.mkdir();
+        } else {
+            
+            //Captura las cosas de la carpeta y borra todo
+            File[] ficheros = directorio.listFiles();
+
+            for (File fichero : ficheros) {
+                fichero.delete();
+            }
+            directorio.delete();
+            directorio.mkdir(); //La vuelve a hacer
+        }
+    }
+    
+    
+    /* --------------------------------------- Población Inicial -------------------------------------  */
+    
     //Función que llama al procedimiento que hace la poblacion inicial
     public void poblacionInicial() throws IOException{
         fun();
+        seleccion();
     }
     
-    public void seleccion() throws FileNotFoundException{
-        this.numeros.clear();
-        this.similitudes.clear();
+    
+    //Funcion para la poblacion inicial
+    public void fun() throws IOException{
         
-        ListaSimple temp= this.generaciones.get(this.contador);
-        Fitness fit = new Fitness(this.ruta+Integer.toString(contador)+"\\");
+        //Nueva lista simple para guardar la generacion
+        ListaSimple n= new ListaSimple(this.nombre+Integer.toString(this.contador));
         
-        Nodo actu;
-        float similitud=0;
+        //Inicializa los valores para cada parametro, de los 7 posibles
+        double [] longitud = new double [2];
+        longitud [0] = 11;
+        longitud [1] = 24;
         
-        /*
-        for (int i =0; i<10; i++){
-            sim=fit.Algoritmo(Integer.toString(i)+".jpg", "imagen.jpg");
-            actu= temp.BuscarPosicion(i);
-            actu.sililitud=sim;
-            this.similitudes.add(sim);           
-           //System.out.println(fit.Algoritmo(Integer.toString(i)+".jpg", "prueba2.jpg"));
-        }*/
+        double [] diametro = new double [2];
+        diametro [0] = 13;
+        diametro [1] = 20;
         
-        //Prueba 
-       
-        int pixelesArbol = fit.PixelesArbol("prueba3.jpg");
-        //System.out.println("Pixeles: " + pixelesArbol);
+        int [] profundidad = new int [2];
+        profundidad [0] = 5;
+        profundidad [1] = 9;
         
-        for(int i=0; i<10; i++){
-            similitud=fit.Algoritmo(Integer.toString(i)+".jpg", "imagen.jpg");
-            float porcentaje= (similitud/pixelesArbol)*100;
-            actu = temp.BuscarPosicion(i);
-            actu.sililitud=(int)porcentaje;
-            this.similitudes.add((int)porcentaje);
+        double []decDiametro = new double [2];
+        decDiametro[0] = 32;
+        decDiametro[1] = 51;
+        
+        double []decLongitud = new double [2];
+        decLongitud[0] = 33;
+        decLongitud[1] = 53;
+        
+        int [] ramas = new int[2];
+        ramas[0] = 3;
+        ramas[1] = 5;
+        
+        double [] angulo = new double [2];
+        angulo[0] = 29;
+        angulo[1] = 40;
+                
+        //Crea una generación de 10 individuos
+        for (int i=0; i<10; i++){
+           
+            //Genera random de long, diametro y profundidad
+            double lon = RandomDouble(longitud[1], longitud[0]);       
+            double dia = RandomDouble(diametro[1], diametro[0]);
+            int prof = RandomInt(profundidad[1], profundidad[0]);
+            
+            //Crea un frame de fractales
+            JFrame f = new Fractales(prof, dia, lon, decLongitud, decDiametro, ramas, angulo);
+            
+            //crea el nodo y guarda el frame en la lista
+            Nodo tmp = new Nodo(prof, dia, lon, decLongitud, decDiametro, ramas, angulo, f, i, false);
+            n.insertar(tmp);
+
+            //Salva las imagenes
+            GuardarImagen imagen = new GuardarImagen();
+            imagen.saveImagen(ruta+Integer.toString(contador)+"\\",Integer.toString(i),f);
         }
         
-        
-        for(int i =0; i<5;i++){
-            this.numeros.add(obtenerMayor());
-            //System.out.println(this.numeros.get(i));
-        }
- 
-        System.out.println("Cruce listo");
-        System.out.println();
+        //Añade la primera generacion a la lista de generaciones
+        this.generaciones.add(n);
     }
     
+    
+    /* --------------------------------------- Cruce -------------------------------------  */
+    
+    //Función que realiza el cruce de cada generación
     public void cruce() throws IOException{
+        
+        //Instancia una lista temporal para almacenar la ultima generación y aumenta el contador de las generaciones
         ListaSimple temp= this.generaciones.get(this.contador);
         this.contador = this.contador + 1;
         
+        //Variables donde se almacenan los parametros de cada individuo
         double []decDiametro = new double [2];
-        //decDiametro[0] = 30;
-        //decDiametro[1] = 65;
-        
         double []decLongitud = new double [2];
-        //decLongitud[0] = 25;
-        //decLongitud[1] = 70;
-        
         int [] ramas = new int[2];
-        //ramas[0] = 2;
-        //ramas[1] = 5;
-        
         double [] angulo = new double [2];
-        //angulo[0] = 33;
-        //angulo[1] = 40;
-        
-        ListaSimple n= new ListaSimple(this.nombre+Integer.toString(this.contador));
         int prof = 0;
         double dia= 0;
         double lon= 0 ;
         int indice=0;
         
+        //Instancia una nueva lista para la nueva generación
+        ListaSimple n= new ListaSimple(this.nombre+Integer.toString(this.contador));
         
+        
+        //Itera sobre los cinco mejores individuos de la ultima generación
         for (int i=0; i< this.numeros.size();i++){
+            
+            //Captura el individuo mejor segun el arreglo global numeros
             Nodo nodo = temp.BuscarPosicion(this.numeros.get(i));
+            
+            //Almacena temporalmente los valores de este individuo
             double long1 = nodo.longitudInicial;
             double dia1 = nodo.diametroInicial;
             int prof1 = nodo.profundidad;
             
-
             double[] rdiametros1 =new double[2];
             System.arraycopy(nodo.decDiametro, 0, rdiametros1, 0, 2);
 
@@ -127,8 +204,14 @@ public class Genetico {
             int [] rramas1 = new int[2];
             System.arraycopy( nodo.ramas, 0, rramas1, 0, 2);
             
+            
+            //Itera sobre los otrso mejores individuos (los otros mejores 4)
             for (int j = i+1; j<this.numeros.size();j++){
+                
+                //Guarda el individuo según el j
                 Nodo nodob = temp.BuscarPosicion(this.numeros.get(j));
+                
+                //También almacena temporalmente estos valores
                 double long2 = nodob.longitudInicial;
                 double dia2 = nodob.diametroInicial;
                 int prof2 = nodob.profundidad;
@@ -145,6 +228,7 @@ public class Genetico {
                 int [] rramas2 = new int[2];
                 System.arraycopy( nodob.ramas, 0, rramas2, 0, 2);
                 
+                /*
                 lon = obtenerrandomPadresD(long1,long2);
                 dia= obtenerrandomPadresD(dia1,dia2);
                 prof = obtenerrandomPadresI(prof1,prof2);
@@ -153,12 +237,27 @@ public class Genetico {
                 decDiametro = obtenerrandomPadresRangosD(rdiametros1,rdiametros2);
                 angulo = obtenerrandomPadresRangosD(rangulos1,rangulos2);
                 ramas = obtenerrandomPadresRangosI(rramas1,rramas2);
+                */
+                
+                //Primero cruzar valores no rangos
+                lon = Cruzar(long1, long2);
+                dia = Cruzar(dia1, dia2);
+                prof = (int) Cruzar(prof1, prof2);
+                
+                //Después se cruzan los rangos
+                decLongitud = CruceRangosD(rlongitudes1, rlongitudes2);
+                decDiametro = CruceRangosD(rdiametros1, rdiametros2);
+                angulo = CruceRangosD(rangulos1, rangulos2);
+                ramas = CruceRangosInt(rramas1, rramas2);
+                
                 
                 //Variable para indicar si se muta o no
                 boolean mutado = false;
             
                 //Muta segun un 3 de probabilidad
                 if (RandomInt(100, 1) < 4){
+                    
+                    //Llama a la funcion que muta y guarda algunos valores necesarios
                     double values[] = new double [3];
                     mutacion(prof, dia, lon, decLongitud, decDiametro, ramas, angulo, values);
                     prof = (int)values[0];
@@ -187,6 +286,98 @@ public class Genetico {
         this.generaciones.add(n);
     }
     
+    
+    //Función que realiza propiamente el cruce, recibe los padres y los cruza
+    public double Cruzar(double padre, double madre){
+        
+        //Primero almacena los decimales        
+        double decimales = obtenerrandomPadresD((padre - (int)(padre)),(madre - (int)(madre))); 
+        
+        //Los convierte a binario
+        String binarioPadre = Integer.toBinaryString((int)padre);
+        String binarioMadre = Integer.toBinaryString((int)madre);
+
+        //Les ajusta el mismo tamaño, para que no haya error a la hora de cruzar
+        if(binarioPadre.length() < binarioMadre.length()){
+            int bits = binarioMadre.length()-binarioPadre.length();
+            binarioPadre = AcomodarBinario(binarioPadre, bits);
+        } 
+        else if(binarioPadre.length() > binarioMadre.length()){
+            int bits = binarioPadre.length()-binarioMadre.length();
+            binarioMadre = AcomodarBinario(binarioMadre, bits);
+        } 
+        
+        //Saca un random para el punto de cruce, donde debe empezar
+        int puntoCruce = RandomInt(binarioPadre.length()-1, 0);
+        String cruce;
+        
+        //Saca otro random, si es menor a 6, entonces cruza de una forma
+        if(RandomInt(10, 1) < 6){
+            cruce = binarioPadre.substring(0, puntoCruce) + binarioMadre.substring(puntoCruce);
+        }else{
+            cruce = binarioMadre.substring(0, puntoCruce) + binarioPadre.substring(puntoCruce);
+        }
+        
+        //Retorna el valor convertirdo a double
+        return ((double)Integer.parseInt(cruce, 2)+decimales);
+    }
+    
+    
+    //Funcion que acomoda un binario, para que tenga el mismo tamaño que el otro
+    public String AcomodarBinario(String binario, int bits){
+        
+        //Recibe el numero binario
+        String acomodo = binario;
+        
+        //Le va agregando ceros a la izquierda
+        for(int i=0; i<bits; i++){
+            acomodo = '0'+acomodo;
+        }
+        return acomodo;
+    }
+    
+    
+    //Función que cruza los rangos tipo double
+    public double[] CruceRangosD(double [] padre, double [] madre){
+        
+        //Realiza el cruce
+        double gen1 = Cruzar(padre[0], madre[0]);
+        double gen2 = Cruzar(padre[1], madre[1]);
+        double[] genes = new double[2];
+        
+        //Los acomoda y después los retorna
+        if(gen1<gen2){
+            genes[0]=gen1;
+            genes[1]=gen2;
+        } else{
+            genes[0]=gen2;
+            genes[1]=gen1;
+        }
+         
+        return genes;
+    }
+    
+    //Función que cruza los rangos tipo int
+    public int[] CruceRangosInt(int [] padre, int[] madre){
+        
+        //Realiza los cruces
+        int gen1 = (int)Cruzar(padre[0], madre[0]);
+        int gen2 = (int) Cruzar(padre[1], madre[1]);
+        int[] genes = new int[2];
+        
+        //Los acomoda y regresa
+        if(gen1<gen2){
+            genes[0]=gen1;
+            genes[1]=gen2;
+        } else{
+            genes[0]=gen2;
+            genes[1]=gen1;
+        }
+        return genes;
+    }
+    
+    
+    /* --------------------------------------- Mutación -------------------------------------  */
     
     //Funcion encarga da mutar un individuo
     public void mutacion(int prof, double diaI, double longI, double [] decL, double[] decD, int [] ram, double [] ang, double[] values){
@@ -227,13 +418,10 @@ public class Genetico {
                     MutacionRangosD(ang);
                 default:
                     break;
-            }
-            
-        }
-        
+            }   
+        } 
     }
-    
-    
+
     //Función que convierte los valores a binario y los muta
     public static double Mutar(double numero){
 
@@ -309,91 +497,82 @@ public class Genetico {
             cromosoma[1] = tmp;
         }
     }
-    
-    public void terminacion(){
-    
-    
-    }
-    
-    //Funcion para la poblacion inicial
-    public void fun() throws IOException{
-        
-        //Nueva lista simple para guardar la generacion
-        ListaSimple n= new ListaSimple(this.nombre+Integer.toString(this.contador));
-        
-        //Inicializa los valores para cada parametro, de los 7 posibles
-        double [] longitud = new double [2];
-        longitud [0] = 13;
-        longitud [1] = 25;
-        
-        double [] diametro = new double [2];
-        diametro [0] = 12;
-        diametro [1] = 23;
-        
-        int [] profundidad = new int [2];
-        profundidad [0] = 5;
-        profundidad [1] = 10;
-        
-        double []decDiametro = new double [2];
-        decDiametro[0] = 30;
-        decDiametro[1] = 65;
-        
-        double []decLongitud = new double [2];
-        decLongitud[0] = 25;
-        decLongitud[1] = 70;
-        
-        int [] ramas = new int[2];
-        ramas[0] = 2;
-        ramas[1] = 5;
-        
-        double [] angulo = new double [2];
-        angulo[0] = 33;
-        angulo[1] = 40;
-                
-        //Crea una generación de 10 individuos
-        for (int i=0; i<10; i++){
-           
-            //Genera random de long, diametro y profundidad
-            double lon = RandomDouble(longitud[1], longitud[0]);       
-            double dia = RandomDouble(diametro[1], diametro[0]);
-            int prof = RandomInt(profundidad[1], profundidad[0]);
-            
-            //Crea un frame de fractales
-            JFrame f = new Fractales(prof, dia, lon, decLongitud, decDiametro, ramas, angulo);
-            
-            //crea el nodo y guarda el frame en la lista
-            Nodo tmp = new Nodo(prof, dia, lon, decLongitud, decDiametro, ramas, angulo, f, i, false);
-            n.insertar(tmp);
 
-            //Salva las imagenes
-            GuardarImagen imagen = new GuardarImagen();
-            imagen.saveImagen(ruta+Integer.toString(contador)+"\\",Integer.toString(i),f);
+    
+    /* --------------------------------------- Selección -------------------------------------  */
+    
+    //Funcion de selección
+    public void seleccion() throws FileNotFoundException{
+        
+        //Primero limpia los arreglos a utilizar
+        this.numeros.clear();
+        this.similitudes.clear();
+        
+        //Captura la ultima generación creada
+        ListaSimple temp= this.generaciones.get(this.contador);
+        
+        //Instancia un fitness
+        Fitness fit = new Fitness(this.ruta+Integer.toString(contador)+"\\");
+        
+        //Variables temporales
+        Nodo actu;
+        float similitud=0;
+        
+        /*
+        for (int i =0; i<10; i++){
+            sim=fit.Algoritmo(Integer.toString(i)+".jpg", "imagen.jpg");
+            actu= temp.BuscarPosicion(i);
+            actu.sililitud=sim;
+            this.similitudes.add(sim);           
+           //System.out.println(fit.Algoritmo(Integer.toString(i)+".jpg", "prueba2.jpg"));
+        }*/
+        
+
+        //almacena la cantidad de pixeles que tiene el arbol
+        int pixelesArbol = fit.PixelesArbol("Hola.jpg");
+
+        //itera sobre todos los individuos de la generación
+        for(int i=0; i<10; i++){
+            
+            //Llama al fitness con el individuo y la imagen en uso
+            similitud=fit.Algoritmo(Integer.toString(i)+".jpg", "Hola.jpg");
+            
+            //Realiza la conversion del porcentaje
+            float porcentaje= (similitud/pixelesArbol)*100;
+            
+            //Guarda la similitud en el individuo y en el arreglo global
+            actu = temp.BuscarPosicion(i);
+            actu.sililitud=(int)porcentaje;
+            this.similitudes.add((int)porcentaje);
+            System.out.println(porcentaje);
         }
         
-        //Añade la primera generacion a la lista de generaciones
-        this.generaciones.add(n);
+        //Aca se almacenan los indices de los mejores individuos 
+        for(int i =0; i<5;i++){
+            this.numeros.add(obtenerMayor());
+        }
+
+        System.out.println("Selección lista");
+        System.out.println();
     }
+
     
-    
-    
+    /* --------------------------------------- Métodos Extras -------------------------------------  */
+
     public double obtenerrandomPadresD(double pa, double pb){
+        
         double lon= 0.0;
+        
         if(pa>pb){
            //Genera random de long
            lon = RandomDouble(pa, pb);
            return lon;
-        }
-        
-        else if (pa==pb){
+        } else if (pa==pb){
             return pa;
-        }
-        
-        else{
+        } else{
             lon = RandomDouble(pb, pa);
             return lon;
         }
-        
-        
     }
     
     
@@ -403,13 +582,9 @@ public class Genetico {
            //Genera random de long
            lon = RandomInt(pa, pb);
            return lon;
-        }
-        
-        else if (pa==pb){
+        } else if (pa==pb){
             return pa;
-        }
-        
-        else{
+        } else{
             lon = RandomInt(pb, pa);
             return lon;
         }
@@ -424,9 +599,7 @@ public class Genetico {
         
         if(sale[0]<sale[1]){
             //return sale;
-        }
-        
-        else{
+        } else{
             double tmp = sale[0];
             sale[0]=sale[1];
             sale[1]=tmp;
@@ -446,9 +619,7 @@ public class Genetico {
         
         if(sale[0]<sale[1]){
             //return sale;
-        }
-        
-        else{
+        } else{
             int tmp = sale[0];
             sale[1]=sale[0];
             sale[0]= tmp;

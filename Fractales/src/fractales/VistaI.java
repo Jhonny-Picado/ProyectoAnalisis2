@@ -99,9 +99,10 @@ public class VistaI extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             // TODO add your handling code here:
-            this.manejo.poblacionInicial();
-            this.manejo.seleccion();
+            //this.manejo.poblacionInicial();
+            //this.manejo.seleccion();
             
+            this.manejo.Algoritmo();
             
         } catch (IOException ex) {
             Logger.getLogger(VistaI.class.getName()).log(Level.SEVERE, null, ex);

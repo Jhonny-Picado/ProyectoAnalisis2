@@ -72,7 +72,7 @@ public class Fractales extends JFrame {
         
         
         //Configura la longitud y el diametro para la siguiente llamada recursiva
-        longitud -= longitud * modLong;
+        longitud -=  longitud * modLong;
         diametro -= diametro * modDiam;
         
         
