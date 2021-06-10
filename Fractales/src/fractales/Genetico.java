@@ -43,30 +43,41 @@ public class Genetico {
         this.numeros.clear();
         this.similitudes.clear();
         
-        ListaSimple tempb= this.generaciones.get(0);
         ListaSimple temp= this.generaciones.get(this.contador);
         Fitness fit = new Fitness(this.ruta+Integer.toString(contador)+"\\");
         
         Nodo actu;
-        int sim=0;
+        float similitud=0;
         
+        /*
         for (int i =0; i<10; i++){
             sim=fit.Algoritmo(Integer.toString(i)+".jpg", "imagen.jpg");
             actu= temp.BuscarPosicion(i);
             actu.sililitud=sim;
-            this.similitudes.add(sim);
-            
-           
+            this.similitudes.add(sim);           
            //System.out.println(fit.Algoritmo(Integer.toString(i)+".jpg", "prueba2.jpg"));
+        }*/
+        
+        //Prueba 
+       
+        int pixelesArbol = fit.PixelesArbol("prueba3.jpg");
+        //System.out.println("Pixeles: " + pixelesArbol);
+        
+        for(int i=0; i<10; i++){
+            similitud=fit.Algoritmo(Integer.toString(i)+".jpg", "imagen.jpg");
+            float porcentaje= (similitud/pixelesArbol)*100;
+            actu = temp.BuscarPosicion(i);
+            actu.sililitud=(int)porcentaje;
+            this.similitudes.add((int)porcentaje);
         }
+        
         
         for(int i =0; i<5;i++){
             this.numeros.add(obtenerMayor());
             //System.out.println(this.numeros.get(i));
         }
-
-        //tempb.imprimir();
-        System.out.println(tempb.categoria);
+ 
+        System.out.println("Cruce listo");
         System.out.println();
     }
     

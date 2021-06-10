@@ -37,25 +37,27 @@ public class CargarImagen {
             ImageInputStream imagenEntrada =  ImageIO.createImageInputStream(entrada);
             BufferedImage imagen = ImageIO.read(imagenEntrada);
             
+            int [][] tmp = new int [imagen.getHeight()][imagen.getWidth()];
             
-            int filas = imagen.getHeight();
-            int columnas = imagen.getWidth();
+            for(int i=0; i<imagen.getHeight(); i++){
             
-            int [][] tmp = new int [filas][columnas];
-            
-            int gg;
-            for(int i=0; i<filas; i++){
-                
-                for(int j=0; j<columnas; j++){
+                for(int j=0; j<imagen.getWidth(); j++){
                     
-                    //if ( imagen.getRGB(j, i)== -16777216)
-                      //  tmp[i][j]=0;
-                    //else
-                    tmp[i][j]=imagen.getRGB(j, i);  
+                    if(imagen.getRGB(j, i)== -1){
+                        tmp[i][j]=0;
+                        //System.out.print(0);
+                    }
+                        
+                    else{
+                        tmp[i][j]=1;
+                        //System.out.print(1);
+                    }
                 }
-                
+                //System.out.println();
             }
+            
             matriz = tmp;
+            
         } catch (IOException ex) {
             Logger.getLogger(CargarImagen.class.getName()).log(Level.SEVERE, null, ex);
         }

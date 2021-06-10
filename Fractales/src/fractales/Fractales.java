@@ -32,8 +32,8 @@ public class Fractales extends JFrame {
     
     //Constructor de la clase, recibe todos los parametros necesarios para crear el arbol
     public Fractales(int prof, double diaI, double longI, double [] decL, double[] decD, int [] ram, double [] ang) {
-        
-        super("Fractal Tree");
+       
+        super("Fractal Tree");     
         setBounds(100, 100, 1366, 720);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         

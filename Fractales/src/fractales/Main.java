@@ -8,16 +8,19 @@ package fractales;
 //import static fractales.Fractales.fun;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import javax.swing.JFrame;
 
 /**
  *
  * @author jocxa
  */
-import javax.swing.JFrame;
 public class Main {
+    
+    
     public static void main(String[] args) throws FileNotFoundException, IOException {
 
         VistaI n = new VistaI();
+          
         /*
         //Crea un frame de fractales
         double[] dl = new double [2];
@@ -37,14 +40,18 @@ public class Main {
         r[1] = 5;
         
         for(int i = 0; i<10; i++){
-        JFrame f = new Fractales(6, 22, 16, dl, dd, r, an);
-        
-        //Salva las imagenes
-        GuardarImagen imagen = new GuardarImagen();
-        imagen.saveImagen("imagenes\\",Integer.toString(i),f);
-    }*/
+            JFrame f = new Fractales(6, 22, 16, dl, dd, r, an);
+            f.setVisible(true);
+            
+            //Salva las imagenes
+            GuardarImagen imagen = new GuardarImagen();
+            imagen.saveImagen("imagenes\\","Hola",f);//Integer.toString(i),f);
+        }
 
-        
+        CargarImagen d = new CargarImagen();
+    
+        d.GenerarMatriz("imagenes\\", "prueba3.jpg");
+        */
         //Genetico n = new Genetico();
         //n.poblacionInicial();
         //n.seleccion();

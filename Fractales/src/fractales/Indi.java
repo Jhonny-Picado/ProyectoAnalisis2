@@ -56,7 +56,7 @@ public class Indi extends javax.swing.JFrame {
         this.prof.setText(Integer.toString(arbol.profundidad));
         this.diaini.setText(Double.toString(arbol.diametroInicial));
         this.longiini.setText(Double.toString(arbol.longitudInicial));
-        this.similitud.setText(Integer.toString(arbol.sililitud));
+        this.similitud.setText(Integer.toString(arbol.sililitud)+"%");
         this.individuo.setText(Integer.toString(arbol.contador));
         
         this.rangulos.setText(Double.toString(arbol.angulo[0]) +" - "+ Double.toString(arbol.angulo[1]));
@@ -179,7 +179,7 @@ public class Indi extends javax.swing.JFrame {
         similitud.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        jLabel10.setText("Similtud:");
+        jLabel10.setText("Similitud:");
         jLabel10.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         individuo.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N

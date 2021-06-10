@@ -37,7 +37,7 @@ public class Fitness {
             for (int j=0; j<mArbol[0].length; j++){
 
                 //Valida si los pixeles son iguales, en dado caso aumenta el contador
-                if(mImagen[i][j]==mArbol[i][j]){
+                if(mImagen[i][j]==mArbol[i][j] && mImagen[i][j]==0){
                     count++;
                 }
                 
@@ -46,6 +46,32 @@ public class Fitness {
         
         //Retorna el contador de similitudes
         return count; 
+    }
+    
+    
+    //Retorna la cantidad de pixeles de la silueta del arbol
+    public int PixelesArbol(String arbol) throws FileNotFoundException{
+        
+         //Inicia un contador en cero
+        int count=0;
+        
+        //Instancia un objeto para cargar las matrices
+        CargarImagen c = new CargarImagen();
+        int [][] mArbol = c.GenerarMatriz("imagenes//",arbol);
+        
+        
+        //For que recorre la matriz del arbol y va sumando cada vez que se coloca en un pixel de su silueta
+        for(int i=0; i<mArbol.length; i++){
+            
+            for(int j=0; j<mArbol[0].length; j++){
+                
+                if(mArbol[i][j] == 0){
+                    count++;
+                }
+            }
+        }
+        
+        return count;
     }
     
 }

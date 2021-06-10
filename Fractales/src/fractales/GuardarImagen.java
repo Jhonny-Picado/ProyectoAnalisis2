@@ -46,7 +46,7 @@ public class GuardarImagen {
             //La binariza para dejarla a blanco y negro
             ImageIO.write(imagen, formato, fichero);
             
-            Imagen obj = new Imagen(ruta+nombre+".jpg");
+            //Imagen obj = new Imagen(ruta+nombre+".jpg");
             //obj.binarizarImagen(50);
             //BufferedImage img = obj.imprimirImagen();
             
