@@ -52,7 +52,7 @@ public class Genetico {
         int i=1;
 
         //Itera mientras no se cumpla la condicion de parada
-        while(Collections.max(similitudes)<85){
+        while(Collections.max(similitudes)<90){
             
             //Primero crea la carpeta donde guardar las imagenes, realiza el cruce y hace la selección
             CrearCarpeta(i);
@@ -106,32 +106,32 @@ public class Genetico {
         
         //Inicializa los valores para cada parametro, de los 7 posibles
         double [] longitud = new double [2];
-        longitud [0] = 11;
+        longitud [0] = 16;
         longitud [1] = 24;
         
         double [] diametro = new double [2];
         diametro [0] = 13;
-        diametro [1] = 20;
+        diametro [1] = 24;
         
         int [] profundidad = new int [2];
         profundidad [0] = 5;
         profundidad [1] = 9;
         
         double []decDiametro = new double [2];
-        decDiametro[0] = 32;
-        decDiametro[1] = 51;
+        decDiametro[0] = 24;
+        decDiametro[1] = 56;
         
         double []decLongitud = new double [2];
-        decLongitud[0] = 33;
-        decLongitud[1] = 53;
+        decLongitud[0] = 23;
+        decLongitud[1] = 63;
         
         int [] ramas = new int[2];
-        ramas[0] = 3;
+        ramas[0] = 2;
         ramas[1] = 5;
         
         double [] angulo = new double [2];
-        angulo[0] = 29;
-        angulo[1] = 40;
+        angulo[0] = 30;
+        angulo[1] = 43;
                 
         //Crea una generación de 10 individuos
         for (int i=0; i<10; i++){
@@ -228,17 +228,17 @@ public class Genetico {
                 int [] rramas2 = new int[2];
                 System.arraycopy( nodob.ramas, 0, rramas2, 0, 2);
                 
-                /*
+                
                 lon = obtenerrandomPadresD(long1,long2);
                 dia= obtenerrandomPadresD(dia1,dia2);
-                prof = obtenerrandomPadresI(prof1,prof2);
+                prof = obtenerrandomPadresI(8,5);
                 
                 decLongitud = obtenerrandomPadresRangosD(rlongitudes1,rlongitudes2);
                 decDiametro = obtenerrandomPadresRangosD(rdiametros1,rdiametros2);
                 angulo = obtenerrandomPadresRangosD(rangulos1,rangulos2);
                 ramas = obtenerrandomPadresRangosI(rramas1,rramas2);
-                */
                 
+                /*
                 //Primero cruzar valores no rangos
                 lon = Cruzar(long1, long2);
                 dia = Cruzar(dia1, dia2);
@@ -249,7 +249,7 @@ public class Genetico {
                 decDiametro = CruceRangosD(rdiametros1, rdiametros2);
                 angulo = CruceRangosD(rangulos1, rangulos2);
                 ramas = CruceRangosInt(rramas1, rramas2);
-                
+                */
                 
                 //Variable para indicar si se muta o no
                 boolean mutado = false;
@@ -516,7 +516,7 @@ public class Genetico {
         
         //Variables temporales
         Nodo actu;
-        float similitud=0;
+        //int similitud=0;
         
         /*
         for (int i =0; i<10; i++){
@@ -529,16 +529,17 @@ public class Genetico {
         
 
         //almacena la cantidad de pixeles que tiene el arbol
-        int pixelesArbol = fit.PixelesArbol("Hola.jpg");
+        float [] pixelesArbol = fit.PixelesArbol("usar.jpg"); //983520
+        //int pixelesArbol= 983520;
 
         //itera sobre todos los individuos de la generación
         for(int i=0; i<10; i++){
             
             //Llama al fitness con el individuo y la imagen en uso
-            similitud=fit.Algoritmo(Integer.toString(i)+".jpg", "Hola.jpg");
+            float [] similitud=fit.Algoritmo(Integer.toString(i)+".jpg", "usar.jpg");
             
             //Realiza la conversion del porcentaje
-            float porcentaje= (similitud/pixelesArbol)*100;
+            float porcentaje = ((similitud[0]/pixelesArbol[0])*100.0f)*0.2f + ((similitud[1]/pixelesArbol[1])*100f)*0.8f;
             
             //Guarda la similitud en el individuo y en el arreglo global
             actu = temp.BuscarPosicion(i);

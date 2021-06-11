@@ -21,10 +21,13 @@ public class Fitness {
 
     
     //Algoritmo de fitness, recibe los nombre de las imagenes a comparar y devuelve un boolean
-    public int Algoritmo(String arbol, String imagen) throws FileNotFoundException{
+    public float[] Algoritmo(String arbol, String imagen) throws FileNotFoundException{
         
         //Inicia un contador en cero
-        int count=0;
+        float [] count= new float[3];
+        count[0]=0;
+        count[1]=0;
+        count[2]=0;
         
         //Instancia un objeto para cargar las matrices
         CargarImagen c = new CargarImagen();
@@ -38,22 +41,30 @@ public class Fitness {
 
                 //Valida si los pixeles son iguales, en dado caso aumenta el contador
                 if(mImagen[i][j]==mArbol[i][j] && mImagen[i][j]==0){
-                    count++;
+                    count[0]++;
+                } else if (mImagen[i][j]==mArbol[i][j]){
+                    count[1]++;
+                }
+                
+                if(mArbol[i][j]==0){
+                    count[2]++;
                 }
                 
             }
         }
-        
+
         //Retorna el contador de similitudes
         return count; 
     }
     
     
     //Retorna la cantidad de pixeles de la silueta del arbol
-    public int PixelesArbol(String arbol) throws FileNotFoundException{
+    public float[] PixelesArbol(String arbol) throws FileNotFoundException{
         
          //Inicia un contador en cero
-        int count=0;
+        float [] count = new float [2];
+        count[0]=0;
+        count[1]=0;
         
         //Instancia un objeto para cargar las matrices
         CargarImagen c = new CargarImagen();
@@ -66,8 +77,10 @@ public class Fitness {
             for(int j=0; j<mArbol[0].length; j++){
                 
                 if(mArbol[i][j] == 0){
-                    count++;
+                    count[0]++;
                 }
+                else
+                    count[1]++;
             }
         }
         
