@@ -52,7 +52,7 @@ public class Genetico {
         int i=1;
 
         //Itera mientras no se cumpla la condicion de parada
-        while(Collections.max(similitudes)<90){
+        while(Collections.max(similitudes)<85){
             
             //Primero crea la carpeta donde guardar las imagenes, realiza el cruce y hace la selección
             CrearCarpeta(i);
