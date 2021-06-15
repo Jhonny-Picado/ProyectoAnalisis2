@@ -31,8 +31,8 @@ public class Fitness {
         
         //Instancia un objeto para cargar las matrices
         CargarImagen c = new CargarImagen();
-        int [][] mArbol = c.GenerarMatriz(this.ruta,arbol);
-        int [][] mImagen = c.GenerarMatriz("imagenes\\",imagen);
+        int [][] mArbol = c.GenerarMatriz(this.ruta + arbol);
+        int [][] mImagen = c.GenerarMatriz(imagen);
 
         //Itera sobre las matrices de las imagenes
         for (int i=0; i<mArbol.length; i++){
@@ -68,7 +68,7 @@ public class Fitness {
         
         //Instancia un objeto para cargar las matrices
         CargarImagen c = new CargarImagen();
-        int [][] mArbol = c.GenerarMatriz("imagenes//",arbol);
+        int [][] mArbol = c.GenerarMatriz(arbol);
         
         
         //For que recorre la matriz del arbol y va sumando cada vez que se coloca en un pixel de su silueta

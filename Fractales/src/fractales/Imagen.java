@@ -15,8 +15,10 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 /**
  *
- * 
+ * @author Jhonny
  */
+
+
 public class Imagen {
     public static final int anchoPermitido=1366;
     public static final int altoPermitido=720;

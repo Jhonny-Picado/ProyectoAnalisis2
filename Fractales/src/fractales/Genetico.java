@@ -30,7 +30,7 @@ public class Genetico {
     int contador = 0;
     String nombre= "Gen";
     String ruta= "imagenes\\Gen";
-    
+    String iruta;
     //Constructor de la clase
     public Genetico(){
    
@@ -41,7 +41,6 @@ public class Genetico {
     
     //Flujo del algoritmo genético
     public void Algoritmo() throws IOException{
-        
         //Crea la primer carpeta y hace la población inicial
         CrearCarpeta(0);
         poblacionInicial();
@@ -63,6 +62,8 @@ public class Genetico {
             
             i++;
         }
+        
+        
     }
     
     
@@ -516,7 +517,6 @@ public class Genetico {
         
         //Variables temporales
         Nodo actu;
-        //int similitud=0;
         
         /*
         for (int i =0; i<10; i++){
@@ -529,14 +529,13 @@ public class Genetico {
         
 
         //almacena la cantidad de pixeles que tiene el arbol
-        float [] pixelesArbol = fit.PixelesArbol("usar.jpg"); //983520
-        //int pixelesArbol= 983520;
+        float [] pixelesArbol = fit.PixelesArbol(this.iruta);
 
         //itera sobre todos los individuos de la generación
         for(int i=0; i<10; i++){
             
             //Llama al fitness con el individuo y la imagen en uso
-            float [] similitud=fit.Algoritmo(Integer.toString(i)+".jpg", "usar.jpg");
+            float [] similitud=fit.Algoritmo(Integer.toString(i)+".jpg", this.iruta);
             
             //Realiza la conversion del porcentaje
             float porcentaje = ((similitud[0]/pixelesArbol[0])*100.0f)*0.2f + ((similitud[1]/pixelesArbol[1])*100f)*0.8f;

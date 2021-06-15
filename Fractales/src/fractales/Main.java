@@ -8,7 +8,7 @@ package fractales;
 //import static fractales.Fractales.fun;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import javax.swing.JFrame;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -17,18 +17,9 @@ import javax.swing.JFrame;
 public class Main {
     
     
-    public static void main(String[] args) throws FileNotFoundException, IOException {
+    public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 
         VistaI n = new VistaI();
-          
-        /*
-        Genetico g = new Genetico();
-        g.Cruzar(14.6, 53.2);*/
-
-        
-        //Genetico n = new Genetico();
-        //n.poblacionInicial();
-        //n.seleccion();
 
     }  
 }
